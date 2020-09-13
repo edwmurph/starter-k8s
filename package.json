@@ -1,0 +1,22 @@
+{
+  "name": "starter-k8s",
+  "version": "1.0.0",
+  "description": "starter for a digitalocean k8s cluster",
+  "main": "index.js",
+  "author": "edward",
+  "license": "MIT",
+  "scripts": {
+    "ctx": "doctl auth switch --context personal && kubectl config use-context do-nyc1-k8s-nyc1-01",
+    "apply": "npm run ctx && kubectl apply -f kubernetes",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "@edwmurph/eslint-config": "0.0.6"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/edwmurph/starter-k8s.git"
+  }
+}
