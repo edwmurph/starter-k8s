@@ -1,5 +1,5 @@
-resource "digitalocean_kubernetes_cluster" "k8s-nyc1-01" {
-  name    = "k8s-nyc1-01"
+resource "digitalocean_kubernetes_cluster" "personal" {
+  name    = "personal"
   region  = "nyc1"
   version = "1.18.8-do.0" # Latest slug from `doctl kubernetes options versions`
 

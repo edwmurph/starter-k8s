@@ -44,7 +44,7 @@ doctl auth switch --context personal
 
 4. Pull cluster configuration:
 ```
-doctl kubernetes cluster kubeconfig save k8s-nyc1-01
+doctl kubernetes cluster kubeconfig save personal
 ```
 
 ## Helm Setup
