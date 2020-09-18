@@ -5,6 +5,8 @@ if [[ ! "$1" =~ grafana|alertmanager|prometheus ]]; then
   exit 1
 fi
 
+npm run ctx
+
 if [[ $1 = "grafana" ]]; then
   kubectl port-forward --namespace monitoring svc/monitoring-kube-prometheus-stack-grafana 3000:80
 elif [[ $1 = "alertmanager" ]]; then
