@@ -1,12 +1,11 @@
+# Template for automating publishing container images run by the k8s cluster
+
 name: Publish images
 
 on:
   push:
-    # disable workflow until image targets are added in workflow below
-    branches-ignore:
-      - '**'
-    # branches:
-      # - master
+    branches:
+      - master
   workflow_dispatch:
     inputs:
       imageTag:
@@ -23,19 +22,19 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@master
 
-      - name: Install doctl
-        uses: digitalocean/action-doctl@v2
-        with:
-          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
-
-      - name: Build images
-        run: |
-          docker build -t <image> ./<local-repo-path>
-
-      - name: Push image to DigitalOcean Container Registry
-        env:
-          IMAGE_TAG: ${{ github.event.inputs.imageTag || 'latest' }}
-        run: |
-          doctl registry login --expiry-seconds 600
-          docker tag <image> "registry.digitalocean.com/<registry>/<image>:${IMAGE_TAG}"
-          docker push "registry.digitalocean.com/<registry>/<image>:${IMAGE_TAG}"
+#       - name: Install doctl
+#         uses: digitalocean/action-doctl@v2
+#         with:
+#           token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+# 
+#       - name: Build images
+#         run: |
+#           docker build -t <image> ./<local-repo-path>
+# 
+#       - name: Push image to DigitalOcean Container Registry
+#         env:
+#           IMAGE_TAG: ${{ github.event.inputs.imageTag || 'latest' }}
+#         run: |
+#           doctl registry login --expiry-seconds 600
+#           docker tag <image> "registry.digitalocean.com/<registry>/<image>:${IMAGE_TAG}"
+#           docker push "registry.digitalocean.com/<registry>/<image>:${IMAGE_TAG}"

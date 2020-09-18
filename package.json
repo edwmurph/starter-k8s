@@ -10,6 +10,7 @@
     "apply": "npm run ctx && kubectl apply -f kubernetes",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
+    "forward": "./scripts/forward.sh",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
