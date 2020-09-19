@@ -4,6 +4,14 @@ Starter for a Kubernetes cluster deployed to Digital Ocean with
  [`kube-prometheus`](https://github.com/prometheus-operator/kube-prometheus)
  plugged in for monitoring/alerting
 
+## Usage
+
+Apply changes to cluster (after completing all below setup):
+
+```
+npm run apply
+```
+
 ## Terraform setup
 
 1. Manually create DO space/bucket for terraform state specified in [s3 terraform backend](./terraform/versions.tf)
@@ -18,11 +26,13 @@ Starter for a Kubernetes cluster deployed to Digital Ocean with
 3. Install terraform to exact version used by terraform code
 
 4. Init terraform state
+
 ```
 terraform init terraform
 ```
 
 5. Provision k8s cluster
+
 ```
 terraform apply terraform
 ```
@@ -43,6 +53,7 @@ doctl auth switch --context personal
 ```
 
 4. Pull cluster configuration:
+
 ```
 doctl kubernetes cluster kubeconfig save personal
 ```
