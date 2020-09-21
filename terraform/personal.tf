@@ -6,9 +6,8 @@ resource "digitalocean_kubernetes_cluster" "personal" {
   node_pool {
     name       = "default-pool"
     size       = "s-1vcpu-2gb" # Options from `doctl kubernetes options sizes`
-    node_count = 1
     auto_scale = true
-    min_nodes = 1
-    max_nodes = 2
+    min_nodes  = 2
+    max_nodes  = 3
   }
 }

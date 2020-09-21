@@ -7,6 +7,7 @@
   "license": "MIT",
   "scripts": {
     "ctx": "doctl auth switch --context personal && kubectl config use-context do-nyc1-personal",
+    "init": "doctl auth init --context personal && doctl kubernetes cluster kubeconfig save personal",
     "apply": "npm run ctx && kubectl apply -f kubernetes",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
