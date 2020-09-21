@@ -10,7 +10,7 @@ npm run ctx
 if [[ $1 = "grafana" ]]; then
   kubectl port-forward --namespace monitoring svc/monitoring-kube-prometheus-stack-grafana 3000:80
 elif [[ $1 = "alertmanager" ]]; then
-  kubectl port-forward --namespace monitoring svc/monitoring-kube-prometheus-alertmanager 3000:9093
+  kubectl port-forward --namespace monitoring svc/monitoring-kube-prometheus-alertmanager 9093:9093
 elif [[ $1 = "prometheus" ]]; then
-  kubectl port-forward --namespace monitoring svc/monitoring-kube-prometheus-prometheus 3000:9090
+  kubectl port-forward --namespace monitoring svc/monitoring-kube-prometheus-prometheus 9090:9090
 fi

@@ -37,6 +37,26 @@ data:
               resources:
                 requests:
                   storage: 5Gi
+      config:
+        global:
+          slack_api_url: "" # SET ENDPOINT FOR ALERTS
+        route:
+          group_by: ["alertname", "cluster", "service"]
+          receiver: 'null'
+          routes:
+            - receiver: discord-alerts
+              match:
+                namespace: default
+                severity: 'critical'
+            - receiver: 'null'
+              match:
+                alertname: Watchdog
+        receivers:
+          - name: 'null'
+          - name: discord-alerts
+            slack_configs:
+              - send_resolved: true
+
     # Change default node-exporter port
     prometheus-node-exporter:
       service:

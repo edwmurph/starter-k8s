@@ -58,6 +58,12 @@ doctl auth switch --context personal
 doctl kubernetes cluster kubeconfig save personal
 ```
 
+5. Add the following lines to your `/etc/hosts` file:
+```
+127.0.0.1 monitoring-kube-prometheus-alertmanager.monitoring
+127.0.0.1 monitoring-kube-prometheus-prometheus.monitoring
+```
+
 ## Helm Setup
 
 To bootstrap the cluster we need to install Helm Operator:
@@ -105,6 +111,20 @@ helm upgrade -f config/helm-operator.yaml \
 kubectl create namespace monitoring
 ```
 
+### Discord Alerting
+
+The webhook URI to send alerts to must be created in Discord and added to the `slack_api_url` in `prometheus-config.yaml`.
+
+1. Open the server settings in Discord
+
+2. Goto the Integrations tab and click on Webhooks
+
+3. Create a new webhook or select an existing one
+
+4. Copy the Webhook URL and set the value for `slack_api_url` in `prometheus-config.yaml`
+
+5. Add `/slack` to the end of the webhook URI
+
 ## Service Forwarding
 
 To connect to internal-only services, forward the port to your local machine.
@@ -134,7 +154,7 @@ Password: poleax-lay-levitate
 npm run forward alertmanager
 ```
 
-2. Open Alertmanager in your web browser: http://localhost:3000
+2. Open Alertmanager in your web browser: http://localhost:9093
 
 ### Prometheus
 
@@ -144,4 +164,38 @@ npm run forward alertmanager
 npm run forward prometheus
 ```
 
-2. Open Prometheus in your web browser: http://localhost:3000
+2. Open Prometheus in your web browser: http://localhost:9090
+
+## Upgrading a Helm Chart
+
+### With Helm Operator
+
+1. Set the new version in the `HelmRelease` yaml and apply to the cluster.
+
+2. The Helm Operator should detect an update and upgrade the chart
+
+### Manually
+
+If Helm Operator fails to update the chart, you may update it manually.
+
+1. Update the `HelmRelease` version and apply to the cluster.
+
+2. Issue the update command manually from your local machine, passing in any custom values.
+
+For example, to upgrade the `kube-prometheus-stack` using the `prometheus-config` values:
+```
+cat kubernetes/prometheus-config.yaml | yq r - 'data."values.yaml"' | helm upgrade -i 9.4.3 -f - prometheus-community/kube-prometheus-stack -n monitoring
+```
+Don't forget to specify the namespace if other than default!
+
+### Failsafe
+
+If neither of the above methods work, you can delete the `HelmRelease` and recreate it.
+
+1. Update the `HelmRelease` version locally.
+
+2. Delete the remote previous `HelmRelease` definiton from the cluster.
+
+3. Immediately apply the new `HelmRelease` to the cluster.
+
+> PVCs should be preserved and reattached
