@@ -8,6 +8,8 @@ data:
   values.yaml: |
     prometheus:
       prometheusSpec:
+        ruleSelector: {}
+        ruleSelectorNilUsesHelmValues: false
         serviceMonitorSelectorNilUsesHelmValues: false
         storageSpec:
           volumeClaimTemplate:

@@ -1,0 +1,18 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  namespace: monitoring
+  name: custom-prometheus.rules
+  labels:
+    app: kube-prometheus-stack
+spec:
+  groups:
+  - name: custom-prometheus.rules
+    rules:
+    - alert: NodesNotReady
+      expr: sum(kube_node_status_condition{condition="Ready",status!="true"}) != 0
+      for: 15m
+      labels:
+        severity: critical
+      annotations:
+        message: One or more nodes are in the NotReady state

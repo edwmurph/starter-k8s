@@ -6,7 +6,7 @@ Starter for a Kubernetes cluster deployed to Digital Ocean with
 
 ## Usage
 
-Apply changes to cluster (after completing all below setup):
+Apply changes to cluster (after completing all below setup steps):
 
 ```
 npm run apply
@@ -64,7 +64,7 @@ doctl kubernetes cluster kubeconfig save personal
 127.0.0.1 monitoring-kube-prometheus-prometheus.monitoring
 ```
 
-## Helm Setup
+## Helm setup
 
 To bootstrap the cluster we need to install Helm Operator:
 https://github.com/fluxcd/helm-operator/blob/master/chart/helm-operator/README.md
@@ -165,37 +165,3 @@ npm run forward prometheus
 ```
 
 2. Open Prometheus in your web browser: http://localhost:9090
-
-## Upgrading a Helm Chart
-
-### With Helm Operator
-
-1. Set the new version in the `HelmRelease` yaml and apply to the cluster.
-
-2. The Helm Operator should detect an update and upgrade the chart
-
-### Manually
-
-If Helm Operator fails to update the chart, you may update it manually.
-
-1. Update the `HelmRelease` version and apply to the cluster.
-
-2. Issue the update command manually from your local machine, passing in any custom values.
-
-For example, to upgrade the `kube-prometheus-stack` using the `prometheus-config` values:
-```
-cat kubernetes/prometheus-config.yaml | yq r - 'data."values.yaml"' | helm upgrade -i 9.4.3 -f - prometheus-community/kube-prometheus-stack -n monitoring
-```
-Don't forget to specify the namespace if other than default!
-
-### Failsafe
-
-If neither of the above methods work, you can delete the `HelmRelease` and recreate it.
-
-1. Update the `HelmRelease` version locally.
-
-2. Delete the remote previous `HelmRelease` definiton from the cluster.
-
-3. Immediately apply the new `HelmRelease` to the cluster.
-
-> PVCs should be preserved and reattached
