@@ -19,6 +19,7 @@ data:
               resources:
                 requests:
                   storage: 25Gi
+
     grafana:
       adminPassword: poleax-lay-levitate
       persistence:
@@ -26,6 +27,7 @@ data:
         storageClassName: do-block-storage
         accessModes: ["ReadWriteOnce"]
         size: 5Gi
+
     alertmanager:
       alertmanagerSpec:
         storage:
@@ -59,9 +61,12 @@ data:
       service:
         port: 30206
         targetPort: 30206
+
     kubeEtcd:
       enabled: false
+
     kubeControllerManager:
       enabled: false
+
     kubeScheduler:
       enabled: false

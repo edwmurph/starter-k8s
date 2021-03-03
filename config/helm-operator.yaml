@@ -1,8 +1,0 @@
-service.port: 30300
-prometheus.enabled: true
-prometheus.serviceMonitor.create: true
-prometheus.serviceMonitor.interval: 5m
-prometheus.serviceMonitor.scrapeTimeout: 5s
-prometheus.serviceMonitor.namespace: monitoring
-prometheus.serviceMonitor.additionalLabels: {}
-dashboards.enabled: true

@@ -1,0 +1,6 @@
+# Flux component defintions: https://github.com/fluxcd/flux2#components
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- kube-prometheus-stack.yaml
+- prometheus-config.yaml

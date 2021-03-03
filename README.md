@@ -37,7 +37,7 @@ terraform init terraform
 terraform apply terraform
 ```
 
-## K8s setup
+## Dev setup
 
 
 1. Install `kubectl` within one minor version of k8s cluster
@@ -64,51 +64,33 @@ doctl kubernetes cluster kubeconfig save personal
 127.0.0.1 monitoring-kube-prometheus-prometheus.monitoring
 ```
 
-## Helm setup
+## Cluster Setup
 
-To bootstrap the cluster we need to install Helm Operator:
-https://github.com/fluxcd/helm-operator/blob/master/chart/helm-operator/README.md
-
-1. Install `Helm` 3.x cli:
-
+### Namespaces
+1. Create the namespaces:
 ```
-brew install helm
+kubectl apply -f kubernetes/namespaces.yaml
 ```
 
-2. Add Flux CD Helm repo:
+### Flux
+To bootstrap the cluster we need to install Flux:
+https://toolkit.fluxcd.io/guides/installation/
 
+1. Install the Flux CLI:
 ```
-helm repo add fluxcd https://charts.fluxcd.io
-```
-
-3. Identify the desired version:
-https://github.com/fluxcd/helm-operator/releases
-
-4. Install the `HelmRelease` Custom Resource Definition:
-
-```
-kubectl apply -f https://raw.githubusercontent.com/fluxcd/helm-operator/{{ version }}/deploy/crds.yaml
+brew install fluxcd/tap/flux
 ```
 
-5. Create the `flux` namespace:
+2. Generate a Github Personal Access token with private repo access
 
+3. Bootstrap Flux
 ```
-kubectl create namespace flux
-```
-
-6. Install the Helm Operator for 3.x on the cluster:
-
-```
-helm upgrade -f config/helm-operator.yaml \
-	-i helm-operator fluxcd/helm-operator \
-  --namespace flux \
-  --set helm.versions=v3
-```
-
-7. Create the `monitoring` namespace:
-
-```
-kubectl create namespace monitoring
+GITHUB_TOKEN=<your token from prev step> flux bootstrap github \
+  --owner=<github username> \
+  --repository=<github repo name> \
+  --branch=master \
+  --components=source-controller,kustomize-controller,helm-controller,notification-controller \
+  --path=clusters/personal
 ```
 
 ### Discord Alerting
